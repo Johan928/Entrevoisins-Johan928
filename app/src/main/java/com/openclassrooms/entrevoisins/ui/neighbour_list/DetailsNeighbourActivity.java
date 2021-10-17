@@ -36,6 +36,7 @@ public class DetailsNeighbourActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
+        // setting the toolbar
         setSupportActionBar(mToolbarDetails);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
