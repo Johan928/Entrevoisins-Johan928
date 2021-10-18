@@ -7,9 +7,11 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -36,7 +38,7 @@ public class AddNeighbourActivity extends AppCompatActivity {
     @BindView(R.id.aboutMeLyt)
     TextInputLayout aboutMeInput;
     @BindView(R.id.create)
-    MaterialButton addButton;
+    Button addButton;
 
     private NeighbourApiService mApiService;
     private String mNeighbourImage;
@@ -46,7 +48,8 @@ public class AddNeighbourActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_neighbour);
         ButterKnife.bind(this);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+       // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mApiService = DI.getNeighbourApiService();
         init();
     }
