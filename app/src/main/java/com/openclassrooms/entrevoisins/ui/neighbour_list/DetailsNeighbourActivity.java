@@ -2,6 +2,7 @@ package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
 
 import android.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -102,5 +103,10 @@ public class DetailsNeighbourActivity extends AppCompatActivity {
 
 }
 
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this,"Hello",Toast.LENGTH_SHORT).show();
 
+        super.onBackPressed();
+    }
 }

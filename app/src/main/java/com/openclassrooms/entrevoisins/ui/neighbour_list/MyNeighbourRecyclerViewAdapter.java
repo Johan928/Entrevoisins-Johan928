@@ -66,6 +66,7 @@ public class MyNeighbourRecyclerViewAdapter extends RecyclerView.Adapter<MyNeigh
                 EventBus.getDefault().post(new OpenDetailsEvent(neighbour));
 
             }
+
         });
         holder.mNeighbourName.setOnClickListener(new View.OnClickListener() {
             @Override

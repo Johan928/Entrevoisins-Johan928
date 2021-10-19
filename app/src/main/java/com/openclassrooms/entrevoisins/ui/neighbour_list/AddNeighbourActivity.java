@@ -50,6 +50,7 @@ public class AddNeighbourActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
        // getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         mApiService = DI.getNeighbourApiService();
         init();
     }
