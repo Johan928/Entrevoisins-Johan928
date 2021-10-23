@@ -1,13 +1,9 @@
 package com.openclassrooms.entrevoisins.model;
 
 import android.os.Build;
-import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -15,34 +11,45 @@ import java.util.Objects;
  */
 public class Neighbour implements Serializable {
 
-    /** Identifier */
+    /**
+     * Identifier
+     */
     private long id;
 
-    /** Full name */
+    /**
+     * Full name
+     */
     private String name;
 
-    /** Avatar */
+    /**
+     * Avatar
+     */
     private String avatarUrl;
 
-    /** Adress */
+    /**
+     * Adress
+     */
     private String address;
 
-    /** Phone number */
+    /**
+     * Phone number
+     */
     private String phoneNumber;
 
-    /** About me */
+    /**
+     * About me
+     */
     private String aboutMe;
 
-    /** Favorite Bool **/
+    /**
+     * Favorite Bool
+     **/
     private Boolean isFavorite = false;
-
 
 
     /**
      * Constructor
-     * @param id
-     * @param name
-     * @param avatarUrl
+     *
      */
     public Neighbour(long id, String name, String avatarUrl, String address,
                      String phoneNumber, String aboutMe) {
@@ -102,7 +109,9 @@ public class Neighbour implements Serializable {
         this.aboutMe = aboutMe;
     }
 
-    public Boolean getIsFavorite() {return isFavorite;}
+    public Boolean getIsFavorite() {
+        return isFavorite;
+    }
 
     public void setFavorite(Boolean favorite) {
         this.isFavorite = favorite;

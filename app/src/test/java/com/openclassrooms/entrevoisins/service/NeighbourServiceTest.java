@@ -2,8 +2,6 @@ package com.openclassrooms.entrevoisins.service;
 
 import com.openclassrooms.entrevoisins.di.DI;
 import com.openclassrooms.entrevoisins.model.Neighbour;
-import com.openclassrooms.entrevoisins.ui.neighbour_list.DetailsNeighbourActivity;
-import com.openclassrooms.entrevoisins.ui.neighbour_list.NeighbourFragment;
 
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Before;
@@ -11,14 +9,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import java.util.ArrayList;
+
 import java.util.List;
+import java.util.Objects;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test on Neighbour service
@@ -37,7 +34,7 @@ public class NeighbourServiceTest {
     public void getNeighboursWithSuccess() {
         List<Neighbour> neighbours = service.getNeighbours();
         List<Neighbour> expectedNeighbours = DummyNeighbourGenerator.DUMMY_NEIGHBOURS;
-        assertThat(neighbours, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedNeighbours.toArray()));
+        assertThat(neighbours, IsIterableContainingInAnyOrder.containsInAnyOrder(Objects.requireNonNull(expectedNeighbours.toArray())));
     }
 
     @Test
@@ -50,17 +47,17 @@ public class NeighbourServiceTest {
     @Test
     public void addToFavoriteList() {
        List<Neighbour> mNeighbours = service.getNeighbours();
-       Integer numberOfFavoritesNeighbours = 0;
+       int numberOfFavoritesNeighbours = 0;
        String neighbourName = "";
-       mNeighbours.get(0).setFavorite(true);
+       service.addOrDeleteFavorite(mNeighbours.get(0),true);
 
         for (Neighbour nbr : mNeighbours) {
-       if (nbr.getIsFavorite() == true){
+       if (nbr.getIsFavorite()){
        numberOfFavoritesNeighbours += 1;
        neighbourName = nbr.getName();}
        }
 
-       assertEquals(1,numberOfFavoritesNeighbours.longValue());
+       assertEquals(1,numberOfFavoritesNeighbours);
         assertEquals("Caroline",neighbourName);
 
     }

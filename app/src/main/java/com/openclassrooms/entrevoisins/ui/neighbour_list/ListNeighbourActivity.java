@@ -1,29 +1,19 @@
 package com.openclassrooms.entrevoisins.ui.neighbour_list;
 
-import android.app.ActionBar;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.WindowManager;
-
 
 import com.openclassrooms.entrevoisins.R;
-import com.openclassrooms.entrevoisins.di.DI;
+
 import com.openclassrooms.entrevoisins.events.UserChangedTab;
-import com.openclassrooms.entrevoisins.model.Neighbour;
-import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
 
 import org.greenrobot.eventbus.EventBus;
 
 
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,11 +31,8 @@ public class ListNeighbourActivity extends AppCompatActivity {
     ViewPager mViewPager;
 
 
-
     ListNeighbourPagerAdapter mPagerAdapter;
-    private List<Neighbour> mNeighbours;
-    private NeighbourApiService mApiService;
-    private List<Neighbour> mFavoriteNeighbours = new ArrayList<>();
+
     private Integer selectedTab;
 
 
@@ -54,12 +41,6 @@ public class ListNeighbourActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_neighbour);
         ButterKnife.bind(this);
-
-        mApiService = DI.getNeighbourApiService();
-
-        mNeighbours = mApiService.getNeighbours();
-
-
 
 
         setSupportActionBar(mToolbar);
@@ -73,13 +54,10 @@ public class ListNeighbourActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
-                switch (tab.getPosition()){
-                    case 1:
-                        selectedTab = 1;
-                        break;
-                    default:
-                        selectedTab = 0;
-
+                if (tab.getPosition() == 1) {
+                    selectedTab = 1;
+                } else {
+                    selectedTab = 0;
                 }
                 EventBus.getDefault().post(new UserChangedTab(selectedTab));
             }

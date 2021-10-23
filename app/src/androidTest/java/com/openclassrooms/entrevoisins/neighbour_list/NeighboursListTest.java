@@ -1,16 +1,15 @@
 
 package com.openclassrooms.entrevoisins.neighbour_list;
 
-import android.support.design.widget.TabLayout;
-import android.support.test.espresso.action.ViewActions;
+
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.widget.EditText;
+
 
 import com.openclassrooms.entrevoisins.R;
-import com.openclassrooms.entrevoisins.ui.neighbour_list.DetailsNeighbourActivity;
+
 import com.openclassrooms.entrevoisins.ui.neighbour_list.ListNeighbourActivity;
 import com.openclassrooms.entrevoisins.utils.*;
 
@@ -21,7 +20,6 @@ import org.junit.runner.RunWith;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
-import static android.support.test.espresso.action.ViewActions.actionWithAssertions;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.assertThat;
@@ -40,11 +38,8 @@ import static org.hamcrest.core.IsNull.notNullValue;
 public class NeighboursListTest {
 
     // This is fixed
-    private static int ITEMS_COUNT = 12;
+    private static final int ITEMS_COUNT = 12;
 
-    private ListNeighbourActivity mActivity;
-
-   // private EditText userName = mActivity.findViewById(R.id.detailsTextViewUserNameWhite);
 
     @Rule
     public ActivityTestRule<ListNeighbourActivity> mActivityRule =
@@ -52,8 +47,8 @@ public class NeighboursListTest {
 
     @Before
     public void setUp() {
-        mActivity = mActivityRule.getActivity();
-        assertThat(mActivity, notNullValue());
+        ListNeighbourActivity activity = mActivityRule.getActivity();
+        assertThat(activity, notNullValue());
     }
 
     /**

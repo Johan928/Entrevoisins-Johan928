@@ -15,8 +15,9 @@ import android.view.ViewGroup;
 
 import com.openclassrooms.entrevoisins.R;
 import com.openclassrooms.entrevoisins.di.DI;
-import com.openclassrooms.entrevoisins.events.*;
+import com.openclassrooms.entrevoisins.events.DeleteNeighbourEvent;
 import com.openclassrooms.entrevoisins.events.OpenDetailsEvent;
+import com.openclassrooms.entrevoisins.events.UserChangedTab;
 import com.openclassrooms.entrevoisins.model.Neighbour;
 import com.openclassrooms.entrevoisins.service.NeighbourApiService;
 
@@ -25,8 +26,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
+import java.util.Objects;
 
 
 public class NeighbourFragment extends Fragment {
@@ -34,17 +34,17 @@ public class NeighbourFragment extends Fragment {
     private NeighbourApiService mApiService;
     private List<Neighbour> mNeighbours;
     private RecyclerView mRecyclerView;
-    private List<Neighbour> mFavoriteNeighboursList = new ArrayList<>();
+    private final List<Neighbour> mFavoriteNeighboursList = new ArrayList<>();
     private Integer mSelectedTab = 0;
 
     /**
      * Create and return a new instance
+     *
      * @return @{@link NeighbourFragment}
      */
     public static NeighbourFragment newInstance() {
-        NeighbourFragment fragment = new NeighbourFragment();
 
-        return fragment;
+        return new NeighbourFragment();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class NeighbourFragment extends Fragment {
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
+        mRecyclerView.addItemDecoration(new DividerItemDecoration(Objects.requireNonNull(getContext()), DividerItemDecoration.VERTICAL));
         return view;
     }
 
@@ -77,14 +77,12 @@ public class NeighbourFragment extends Fragment {
      */
     private void initList(Integer selectedTab) {
 
-        switch (selectedTab){
-            case 1 :
-               listFavorite();
-                mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mFavoriteNeighboursList));
-                break;
-            default :
-                mNeighbours = mApiService.getNeighbours();
-                mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours));
+        if (selectedTab == 1) {
+            listFavorite();
+            mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mFavoriteNeighboursList));
+        } else {
+            mNeighbours = mApiService.getNeighbours();
+            mRecyclerView.setAdapter(new MyNeighbourRecyclerViewAdapter(mNeighbours));
         }
     }
 
@@ -93,7 +91,7 @@ public class NeighbourFragment extends Fragment {
         mFavoriteNeighboursList.clear();
 
         for (Neighbour neighbour : mNeighbours) {
-            if (neighbour.getIsFavorite() == true) {
+            if (neighbour.getIsFavorite()) {
                 mFavoriteNeighboursList.add(neighbour);
             }
         }
@@ -120,36 +118,31 @@ public class NeighbourFragment extends Fragment {
 
     /**
      * Fired if the user clicks on a delete button
-     * @param event
+     *
+
      */
     @Subscribe
     public void onDeleteNeighbour(DeleteNeighbourEvent event) {
-        /** We verify which tabitem is selected **/
-        switch (mSelectedTab) {
+        // We verify which tabitem is selected
+        if (mSelectedTab == 1) {// tabitem FAVORITES is selected
 
-            case 1: /** tabitem FAVORITES is selected**/
-
-                /** we set favorite to false for the concerned neighbour **/
-               for (Neighbour neighbour : mNeighbours){
-             if (neighbour==event.neighbour){
-                 neighbour.setFavorite(false);
-             }
-            }
-                break;
-            default : /** means the selected tab is not favorites, we use the apiservice method to delete a neighbour **/
-                mApiService.deleteNeighbour(event.neighbour);
+           mApiService.addOrDeleteFavorite(event.neighbour, false);
+        } else {// means the selected tab is not favorites, we use the apiservice method to delete a neighbour **/
+            mApiService.deleteNeighbour(event.neighbour);
         }
-        /** we update the recyclerview depending on which tabitem is selected **/
-                initList(mSelectedTab);
+        // we update the recyclerview depending on which tabitem is selected
+        initList(mSelectedTab);
     }
+
     @Subscribe
-    public void onListFavoriteSelected(UserChangedTab event){
-             mSelectedTab = event.selectedTab;
-              initList(event.selectedTab);
+    public void onListFavoriteSelected(UserChangedTab event) {
+        mSelectedTab = event.selectedTab;
+        initList(event.selectedTab);
     }
+
     @Subscribe
     public void onOpenDetailsEvent(OpenDetailsEvent event) {
-         Intent intent = new Intent(this.getContext(),DetailsNeighbourActivity.class).putExtra("neighbour",event.Neighbour);
+        Intent intent = new Intent(this.getContext(), DetailsNeighbourActivity.class).putExtra("neighbour", event.Neighbour);
         startActivity(intent);
     }
 

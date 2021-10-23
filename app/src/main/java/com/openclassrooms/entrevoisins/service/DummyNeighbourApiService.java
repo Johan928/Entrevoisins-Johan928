@@ -1,15 +1,18 @@
 package com.openclassrooms.entrevoisins.service;
 
+import android.widget.Toast;
+
 import com.openclassrooms.entrevoisins.model.Neighbour;
 
+import java.sql.Struct;
 import java.util.List;
 
 /**
  * Dummy mock for the Api
  */
-public class DummyNeighbourApiService implements  NeighbourApiService {
+public class DummyNeighbourApiService implements NeighbourApiService {
 
-    private List<Neighbour> neighbours = DummyNeighbourGenerator.generateNeighbours();
+    private final List<Neighbour> neighbours = DummyNeighbourGenerator.generateNeighbours();
 
 
     /**
@@ -31,10 +34,32 @@ public class DummyNeighbourApiService implements  NeighbourApiService {
 
     /**
      * {@inheritDoc}
+     *
      * @param neighbour
      */
     @Override
     public void createNeighbour(Neighbour neighbour) {
         neighbours.add(neighbour);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     */
+    @Override
+    public void addOrDeleteFavorite(Neighbour neighbour,Boolean favorite) {
+        for (Neighbour nbr : neighbours) {
+            if (nbr.getId() == neighbour.getId()) {
+
+               nbr.setFavorite(favorite);
+
+                }
+
+            }
+        }
+
 }
+
+
+
+
